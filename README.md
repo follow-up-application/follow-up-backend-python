@@ -51,8 +51,8 @@ Microservicio especializado para la **generacion asincrona de reportes (PDF y Ex
 - [x] Configuracion del entorno virtual y dependencias base.
 - [x] Inicializacion del proyecto Django y estructura modular.
 - [x] Configuracion de la base de datos PostgreSQL local y Router de solo lectura.
-- [ ] Modelos de datos (\DocumentJob\ y \Certificate\).
-- [ ] Middleware de seguridad (\X-Service-Token\) e idempotencia.
+- [x] Modelos de datos (\DocumentJob\ y \Certificate\).
+- [x] Middleware de seguridad (\X-Service-Token\) e idempotencia.
 - [ ] Generadores de documentos (PDF con ReportLab y Excel con XlsxWriter).
 - [ ] Tareas asincronas con Celery y Redis.
 - [ ] Generacion de especificacion OpenAPI (\openapi.json\) y coleccion Postman.
