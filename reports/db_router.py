@@ -1,7 +1,7 @@
 class ReportsRouter:
     """
     Router de base de datos para separar el esquema propio de reportes
-    de las tablas académicas de solo lectura.
+    de las tablas academicas de solo lectura.
     """
     def db_for_read(self, model, **hints):
         return "default" if model._meta.app_label == "reports" else "follow"
