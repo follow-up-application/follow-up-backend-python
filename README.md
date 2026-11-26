@@ -55,5 +55,6 @@ eportes\ para control de tareas y certificados emitidos.
 - [x] Modelos de datos (\DocumentJob\ y \Certificate\).
 - [x] Middleware de seguridad (\X-Service-Token\) e idempotencia.
 - [x] Generadores de documentos (PDF con ReportLab y Excel con XlsxWriter).
+- [x] Consultas SQL de solo lectura sobre base academica y Catalogo Registry.
 - [ ] Tareas asincronas con Celery y Redis.
 - [ ] Generacion de especificacion OpenAPI (\openapi.json\) y coleccion Postman.
