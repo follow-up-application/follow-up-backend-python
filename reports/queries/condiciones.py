@@ -8,8 +8,8 @@ def verificar_periodo_cerrado(periodo_id: str | None) -> bool:
     """
     if not periodo_id:
         return False
-    sql = \"SELECT 1 FROM periodo_cierres WHERE periodo_id = %(periodo_id)s::uuid LIMIT 1;\"
-    _, filas = execute_query(sql, {\"periodo_id\": periodo_id})
+    sql = "SELECT 1 FROM periodo_cierres WHERE periodo_id = %(periodo_id)s::uuid LIMIT 1;"
+    _, filas = execute_query(sql, {"periodo_id": periodo_id})
     return len(filas) > 0
 
 
@@ -21,7 +21,7 @@ def query_condiciones(filtros: dict[str, Any], snapshot: dict[str, Any] | None =
     if not verificar_periodo_cerrado(periodo_id):
         raise ValueError("PERIODO_NO_CERRADO")
 
-    sql = \"\"\"
+    sql = """
     SELECT p.nombre AS periodo,
            cd.curso, cd.division, cd.turno,
            m.nombre AS materia,
@@ -39,7 +39,7 @@ def query_condiciones(filtros: dict[str, Any], snapshot: dict[str, Any] | None =
     WHERE ca.periodo_id = %(periodo_id)s::uuid
       AND (%(curso_id)s::bigint IS NULL OR cd.id = %(curso_id)s::bigint)
     ORDER BY cd.curso, cd.division, alumno, m.nombre;
-    \"\"\"
+    """
 
     params = {
         "periodo_id": periodo_id,
@@ -57,7 +57,7 @@ def query_regularidad(filtros: dict[str, Any], snapshot: dict[str, Any] | None =
     """
     Obtiene las materias regulares o promocionadas vigentes para la constancia de regularidad.
     """
-    sql = \"\"\"
+    sql = """
     SELECT DISTINCT ON (ca.alumno_id, m.id)
            m.nombre AS materia,
            ca.condicion,
@@ -71,7 +71,7 @@ def query_regularidad(filtros: dict[str, Any], snapshot: dict[str, Any] | None =
       AND cd.ciclo_lectivo_id = %(ciclo_id)s::uuid
       AND ca.condicion IN ('regular', 'promocionado')
     ORDER BY ca.alumno_id, m.id, ca.calculada_en DESC;
-    \"\"\"
+    """
 
     params = {
         "alumno_id": filtros.get("alumnoId") or filtros.get("alumno_id"),

@@ -6,20 +6,20 @@ from reports.queries.calificaciones import query_calificaciones, query_notas
 from reports.queries.condiciones import query_condiciones, query_regularidad
 from reports.queries.inscripciones import query_inscripciones, query_inscripcion_certificado
 
-FORMATOS_REPORTE = {\"pdf\", \"xlsx\"}
-FORMATOS_CERTIFICADO = {\"pdf\"}
+FORMATOS_REPORTE = {"pdf", "xlsx"}
+FORMATOS_CERTIFICADO = {"pdf"}
 
 
 class BaseDocumentSerializer(serializers.Serializer):
-    formato = serializers.ChoiceField(choices=[\"pdf\", \"xlsx\"])
+    formato = serializers.ChoiceField(choices=["pdf", "xlsx"])
     solicitadoPor = serializers.UUIDField()
-    requestId = serializers.CharField(max_length=100, required=False, allow_blank=True, default=\"\")
+    requestId = serializers.CharField(max_length=100, required=False, allow_blank=True, default="")
 
     def validate(self, attrs):
-        kind = self.context.get(\"kind\", \"\")
-        if kind == \"certificado\" and attrs.get(\"formato\") != \"pdf\":
+        kind = self.context.get("kind", "")
+        if kind == "certificado" and attrs.get("formato") != "pdf":
             raise serializers.ValidationError(
-                {\"formato\": \"Los certificados solo se generan en PDF.\"}, code=\"formato_no_permitido\"
+                {"formato": "Los certificados solo se generan en PDF."}, code="formato_no_permitido"
             )
         return attrs
 
@@ -34,8 +34,8 @@ class AsistenciaSerializer(BaseDocumentSerializer):
 
     def validate(self, attrs):
         attrs = super().validate(attrs)
-        if attrs[\"desde\"] > attrs[\"hasta\"]:
-            raise serializers.ValidationError({\"desde\": \"Debe ser <= hasta.\"})
+        if attrs["desde"] > attrs["hasta"]:
+            raise serializers.ValidationError({"desde": "Debe ser <= hasta."})
         return attrs
 
 
@@ -67,8 +67,8 @@ class AuditoriaSerializer(BaseDocumentSerializer):
 
     def validate(self, attrs):
         attrs = super().validate(attrs)
-        if attrs[\"desde\"] > attrs[\"hasta\"]:
-            raise serializers.ValidationError({\"desde\": \"Debe ser <= hasta.\"})
+        if attrs["desde"] > attrs["hasta"]:
+            raise serializers.ValidationError({"desde": "Debe ser <= hasta."})
         return attrs
 
 
@@ -91,8 +91,8 @@ class CertificadoAsistenciaSerializer(BaseDocumentSerializer):
 
     def validate(self, attrs):
         attrs = super().validate(attrs)
-        if attrs[\"desde\"] > attrs[\"hasta\"]:
-            raise serializers.ValidationError({\"desde\": \"Debe ser <= hasta.\"})
+        if attrs["desde"] > attrs["hasta"]:
+            raise serializers.ValidationError({"desde": "Debe ser <= hasta."})
         return attrs
 
 
@@ -103,16 +103,16 @@ class InscripcionSerializer(BaseDocumentSerializer):
 
 
 REPORTES = {
-    \"asistencia\": {\"serializer\": AsistenciaSerializer, \"query\": query_asistencia, \"titulo\": \"Reporte de Asistencia\"},
-    \"calificaciones\": {\"serializer\": CalificacionesSerializer, \"query\": query_calificaciones, \"titulo\": \"Reporte de Calificaciones\"},
-    \"condiciones\": {\"serializer\": CondicionesSerializer, \"query\": query_condiciones, \"titulo\": \"Reporte de Condiciones Finales\"},
-    \"inscripciones\": {\"serializer\": InscripcionesSerializer, \"query\": query_inscripciones, \"titulo\": \"Padron de Inscripciones\"},
-    \"auditoria\": {\"serializer\": AuditoriaSerializer, \"query\": query_auditoria, \"titulo\": \"Reporte de Auditoria\"},
+    "asistencia": {"serializer": AsistenciaSerializer, "query": query_asistencia, "titulo": "Reporte de Asistencia"},
+    "calificaciones": {"serializer": CalificacionesSerializer, "query": query_calificaciones, "titulo": "Reporte de Calificaciones"},
+    "condiciones": {"serializer": CondicionesSerializer, "query": query_condiciones, "titulo": "Reporte de Condiciones Finales"},
+    "inscripciones": {"serializer": InscripcionesSerializer, "query": query_inscripciones, "titulo": "Padron de Inscripciones"},
+    "auditoria": {"serializer": AuditoriaSerializer, "query": query_auditoria, "titulo": "Reporte de Auditoria"},
 }
 
 CERTIFICADOS = {
-    \"regularidad\": {\"serializer\": RegularidadSerializer, \"query\": query_regularidad, \"titulo\": \"Constancia de Regularidad\"},
-    \"calificaciones\": {\"serializer\": CertificadoNotasSerializer, \"query\": query_notas, \"titulo\": \"Constancia de Calificaciones\"},
-    \"asistencia\": {\"serializer\": CertificadoAsistenciaSerializer, \"query\": query_asistencia_certificado, \"titulo\": \"Constancia de Asistencia\"},
-    \"inscripcion\": {\"serializer\": InscripcionSerializer, \"query\": query_inscripcion_certificado, \"titulo\": \"Constancia de Inscripcion\"},
+    "regularidad": {"serializer": RegularidadSerializer, "query": query_regularidad, "titulo": "Constancia de Regularidad"},
+    "calificaciones": {"serializer": CertificadoNotasSerializer, "query": query_notas, "titulo": "Constancia de Calificaciones"},
+    "asistencia": {"serializer": CertificadoAsistenciaSerializer, "query": query_asistencia_certificado, "titulo": "Constancia de Asistencia"},
+    "inscripcion": {"serializer": InscripcionSerializer, "query": query_inscripcion_certificado, "titulo": "Constancia de Inscripcion"},
 }

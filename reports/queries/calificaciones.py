@@ -6,7 +6,7 @@ def query_calificaciones(filtros: dict[str, Any], snapshot: dict[str, Any] | Non
     """
     Obtiene el listado de calificaciones detalladas por instancia de evaluacion.
     """
-    sql = \"\"\"
+    sql = """
     SELECT u.first_name || ' ' || u.last_name AS alumno,
            cd.curso, cd.division, cd.turno,
            m.nombre AS materia,
@@ -30,7 +30,7 @@ def query_calificaciones(filtros: dict[str, Any], snapshot: dict[str, Any] | Non
       AND (%(materia_id)s::bigint IS NULL OR m.id = %(materia_id)s::bigint)
       AND (%(alumno_id)s::uuid IS NULL OR al.id = %(alumno_id)s::uuid)
     ORDER BY alumno, materia, ie.fecha;
-    \"\"\"
+    """
 
     params = {
         "ciclo_id": filtros.get("cicloLectivoId") or filtros.get("ciclo_id"),
@@ -51,7 +51,7 @@ def query_notas(filtros: dict[str, Any], snapshot: dict[str, Any] | None = None)
     """
     Obtiene las calificaciones y materias de un alumno para la emision de constancia/certificado de notas.
     """
-    sql = \"\"\"
+    sql = """
     SELECT m.nombre AS materia,
            p.nombre AS periodo,
            ie.nombre AS instancia,
@@ -66,7 +66,7 @@ def query_notas(filtros: dict[str, Any], snapshot: dict[str, Any] | None = None)
       AND (%(ciclo_id)s::uuid IS NULL OR p.ciclo_lectivo_id = %(ciclo_id)s::uuid)
       AND (%(periodo_id)s::uuid IS NULL OR p.id = %(periodo_id)s::uuid)
     ORDER BY m.nombre, p.nombre, ie.fecha;
-    \"\"\"
+    """
 
     params = {
         "alumno_id": filtros.get("alumnoId") or filtros.get("alumno_id"),

@@ -6,7 +6,7 @@ def query_inscripciones(filtros: dict[str, Any], snapshot: dict[str, Any] | None
     """
     Obtiene el padron general de inscripciones por ciclo lectivo, curso o materia.
     """
-    sql = \"\"\"
+    sql = """
     SELECT cd.curso, cd.division, cd.turno,
            m.nombre AS materia,
            u.first_name || ' ' || u.last_name AS alumno,
@@ -21,7 +21,7 @@ def query_inscripciones(filtros: dict[str, Any], snapshot: dict[str, Any] | None
       AND (%(curso_id)s::bigint IS NULL OR cd.id = %(curso_id)s::bigint)
       AND (%(estado)s IS NULL OR i.estado = %(estado)s)
     ORDER BY cd.curso, cd.division, alumno, m.nombre;
-    \"\"\"
+    """
 
     params = {
         "ciclo_id": filtros.get("cicloLectivoId") or filtros.get("ciclo_id"),
@@ -40,7 +40,7 @@ def query_inscripcion_certificado(filtros: dict[str, Any], snapshot: dict[str, A
     """
     Obtiene las materias inscritas de un alumno para emitir la constancia oficial de inscripcion.
     """
-    sql = \"\"\"
+    sql = """
     SELECT m.nombre AS materia,
            cd.curso, cd.division, cd.turno,
            i.estado,
@@ -52,7 +52,7 @@ def query_inscripcion_certificado(filtros: dict[str, Any], snapshot: dict[str, A
       AND cd.ciclo_lectivo_id = %(ciclo_id)s::uuid
       AND (%(estado)s IS NULL OR i.estado = %(estado)s)
     ORDER BY m.nombre;
-    \"\"\"
+    """
 
     params = {
         "alumno_id": filtros.get("alumnoId") or filtros.get("alumno_id"),

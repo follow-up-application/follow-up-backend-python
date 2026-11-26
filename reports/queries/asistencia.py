@@ -6,7 +6,7 @@ def query_asistencia(filtros: dict[str, Any], snapshot: dict[str, Any] | None = 
     """
     Obtiene el listado detallado de asistencias con filtros opcionales.
     """
-    sql = \"\"\"
+    sql = """
     SELECT c.fecha,
            cd.curso, cd.division, cd.turno,
            m.nombre AS materia,
@@ -25,7 +25,7 @@ def query_asistencia(filtros: dict[str, Any], snapshot: dict[str, Any] | None = 
       AND (%(alumno_id)s::uuid IS NULL OR a.alumno_id = %(alumno_id)s::uuid)
     ORDER BY c.fecha, cd.curso, cd.division, alumno
     LIMIT %(limite)s;
-    \"\"\"
+    """
 
     params = {
         "desde": filtros.get("desde"),
@@ -48,7 +48,7 @@ def query_asistencia_certificado(filtros: dict[str, Any], snapshot: dict[str, An
     """
     Obtiene el resumen porcentual de asistencia para la emision de una constancia de alumno.
     """
-    sql = \"\"\"
+    sql = """
     SELECT al.id AS alumno_id,
            u.first_name || ' ' || u.last_name AS alumno,
            count(*) AS total_clases,
@@ -67,7 +67,7 @@ def query_asistencia_certificado(filtros: dict[str, Any], snapshot: dict[str, An
       AND a.alumno_id = %(alumno_id)s::uuid
       AND (%(curso_id)s::bigint IS NULL OR cd.id = %(curso_id)s::bigint)
     GROUP BY al.id, u.first_name, u.last_name;
-    \"\"\"
+    """
 
     params = {
         "desde": filtros.get("desde"),

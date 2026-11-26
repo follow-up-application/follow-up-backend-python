@@ -6,7 +6,7 @@ def query_auditoria(filtros: dict[str, Any], snapshot: dict[str, Any] | None = N
     """
     Obtiene los registros de auditoria del sistema entre fechas con filtros opcionales.
     """
-    sql = \"\"\"
+    sql = """
     SELECT id,
            entidad,
            entidad_id,
@@ -22,7 +22,7 @@ def query_auditoria(filtros: dict[str, Any], snapshot: dict[str, Any] | None = N
       AND (%(accion)s IS NULL OR accion = %(accion)s)
     ORDER BY ocurrido_en DESC
     LIMIT %(limite)s;
-    \"\"\"
+    """
 
     params = {
         "desde": filtros.get("desde"),
